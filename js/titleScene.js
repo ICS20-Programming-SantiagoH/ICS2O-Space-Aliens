@@ -4,20 +4,20 @@
 //
 // Created by: Santiago Hewett
 // Created on: May 2023
-// This is the splash scene
+// This is the Title scene
 
 /** 
-* This class is the Splash Scene
+* This class is the Title Scene
 */
-class SplashScene extends Phaser.Scene {
+class TitleScene extends Phaser.Scene {
   
   /** 
   * This method is the construtor
   */
   constructor() {
-    super({ key: "splashScene" })
+    super({ key: "titleScene" })
   }
-
+  
   /** 
   * Can be defined on your own Scenes.
   * This method is called by the Scene Manager when the scene starts,
@@ -27,13 +27,13 @@ class SplashScene extends Phaser.Scene {
   init(data) {
     this.cameras.main.setBackgroundColor("ffffff")
   }
-
+  
   /** 
   * Can be defined on your own Scenes.
   * Use it to load assets.
   */
   preload() {
-    console.log("Splash Scene")
+    console.log("Title Scene")
   }
 
   /** 
@@ -52,8 +52,8 @@ class SplashScene extends Phaser.Scene {
   * @parm {number} delta - The delta time in ms since the last frame.
   */
   update(time, delta) {
-    this.scene.switch("titleScene")
+    //pass
   }
 }
 
-export default SplashScene
+export default TitleScene

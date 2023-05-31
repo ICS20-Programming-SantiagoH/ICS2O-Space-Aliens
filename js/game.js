@@ -8,9 +8,11 @@
 
 // Scene import statements
 import SplashScene from "./splashScene.js"
+import TitleScene from "./titleScene.js"
 
 // Create the new scenes
 const splashScene = new SplashScene()
+const titleScene = new TitleScene()
 
 /** 
 * Start Phaser Game.
@@ -23,7 +25,7 @@ const config = {
     default: 'arcade',
     arcade: {
       debug: true,
-    }
+    },
   },
   // Set background color
   backgroundColor: 0x5f6e7a,
@@ -31,16 +33,16 @@ const config = {
     mode: Phaser.Scale.FIT,
     // We place it in the middle of the page.
     autoCenter: Phaser.Scale.CENTER_BOTH,
-  }
+  },
 }
 
 const game = new Phaser.Game(config)
 // console.log(game)
 
 // Load scenes
-
 // Note: Remember any "key" is global and CAN NOT be reused!
 game.scene.add("splashScene", splashScene)
+game.scene.add("titleScene", titleScene)
 
 // The start scene
 game.scene.start("splashScene")
