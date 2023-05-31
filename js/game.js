@@ -6,7 +6,15 @@
 // Created on: May 2023
 // This is the phaser3 configuration file
 
-//* Game scene */
+// Scene import statements
+import SplashScene from "./splashScene.js"
+
+// Create the new scenes
+const splashScene = new SplashScene()
+
+/** 
+* Start Phaser Game.
+*/
 const config = {
   type: Phaser.AUTO,
   width: 1920,
@@ -14,7 +22,7 @@ const config = {
   physics: {
     default: 'arcade',
     arcade: {
-      debug: true
+      debug: true,
     }
   },
   // Set background color
@@ -22,9 +30,17 @@ const config = {
   scale: {
     mode: Phaser.Scale.FIT,
     // We place it in the middle of the page.
-    autoCenter: Phaser.Scale.CENTER_BOTH
+    autoCenter: Phaser.Scale.CENTER_BOTH,
   }
 }
 
 const game = new Phaser.Game(config)
-console.log(game)
+// console.log(game)
+
+// Load scenes
+
+// Note: Remember any "key" is global and CAN NOT be reused!
+game.scene.add("splashScene", splashScene)
+
+// The start scene
+game.scene.start("splashScene")
