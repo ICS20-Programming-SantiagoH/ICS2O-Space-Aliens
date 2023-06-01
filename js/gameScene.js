@@ -4,22 +4,20 @@
 //
 // Created by: Santiago Hewett
 // Created on: May 2023
-// This is the splash scene
+// This is the Game scene
 
 /** 
-* This class is the Splash Scene
+* This class is the Game Scene
 */
-class SplashScene extends Phaser.Scene {
+class GameScene extends Phaser.Scene {
   
   /** 
   * This method is the construtor
   */
   constructor() {
-    super({ key: "splashScene" })
-
-    this.splashSceneBackgroundImage = null
+    super({ key: 'gameScene' })
   }
-
+  
   /** 
   * Can be defined on your own Scenes.
   * This method is called by the Scene Manager when the scene starts,
@@ -27,16 +25,15 @@ class SplashScene extends Phaser.Scene {
   *@param {object} data - Any data passed via ScenePlugin.add() or ScenePlugin.start().
   */
   init(data) {
-    this.cameras.main.setBackgroundColor("ffffff")
+    this.cameras.main.setBackgroundColor('#ffffff')
   }
-
+  
   /** 
   * Can be defined on your own Scenes.
   * Use it to load assets.
   */
   preload() {
-    console.log("Splash Scene")
-    this.load.image("splashSceneBackgound", "./assets/splashSceneImage.png")
+    console.log('Game Scene')
   }
 
   /** 
@@ -45,26 +42,16 @@ class SplashScene extends Phaser.Scene {
   * @param {object} data - Any data passed via ScenePlugin.add() or ScenePlugin.start() 
   */
   create(data) {
-    this.splashSceneBackgroundImage = this.add.spite(
-      0,
-      0,
-      "splashSceneBackgound"
-    )
-    this.splashSceneBackgroundImage.x = 1920 / 2 
-    this.splashSceneBackgroundImage.y = 1080 / 2
   }
 
   /** 
-  * Should be overridden by your own Scenes.
+  * Should be overridden  by your own Scenes.
   * This method is called once per game step while the scene is running.
   * @param {number} time - The current time.
   * @parm {number} delta - The delta time in ms since the last frame.
   */
   update(time, delta) {
-    if (time > 3000) {
-      this.scene.switch("titleScene")
-    }
   }
 }
 
-export default SplashScene
+export default GameScene
