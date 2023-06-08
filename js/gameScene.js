@@ -10,6 +10,16 @@
 * This class is the Game Scene
 */
 class GameScene extends Phaser.Scene {
+  //Soccer net creation
+  createNet () {
+    const netXLocation = Math.floor(Math.random() * 1920) + 1 //This will get a random number between 1 and 1920
+    let netXVelocity = Math.floor(Math.random() * 50) +1 //This will get a random number between 1 and 50;
+    netXVelocity *= Math.round(Math.random()) ? 1 : -1 //This will make 50% of the cases negative
+    const anNet = this.physics.add.sprite(netXLocation, -100, 'net')
+    anNet.body.velocity.y = 200
+    anNet.body.velocity.x = netXVelocity
+    this.netGroup.add(anNet)
+  }
 
   /** 
   * This method is the construtor
@@ -38,8 +48,8 @@ class GameScene extends Phaser.Scene {
     //Images
     this.load.image('startBackground', './assets/soccerPitch.avif')
     this.load.image('ship', './assets/messi_ship_head.png')
-
     this.load.image('missile', './assets/soccer_ball_missile.png')
+    this.load.image('net', './assets/Soccer_Goal.png')
 
     //sound
     this.load.audio('laser', './assets/suiii.wav')
@@ -58,8 +68,12 @@ class GameScene extends Phaser.Scene {
     //Ship
     this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, 'ship').setScale(0.50)
 
-    //Missile
+    //group for Missile
     this.missileGroup = this.physics.add.group()
+
+    // group for net
+    this.netGroup = this.add.group()
+    this.createNet()
   }
 
   /** 
