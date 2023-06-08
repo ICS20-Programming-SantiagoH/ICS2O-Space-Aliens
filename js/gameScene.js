@@ -48,11 +48,13 @@ class GameScene extends Phaser.Scene {
     //Images
     this.load.image('startBackground', './assets/soccerPitch.avif')
     this.load.image('ship', './assets/messi_ship_head.png')
-    this.load.image('missile', './assets/soccer_ball_missile.png')
+    this.load.image('ball', './assets/soccer_ball.png')
     this.load.image('net', './assets/Soccer_Goal.png')
+    
 
-    //sound
+    //sounds
     this.load.audio('laser', './assets/suiii.wav')
+    this.load.audio('goal', './assets/goal_sound.wav')
   }
 
   /** 
@@ -68,12 +70,21 @@ class GameScene extends Phaser.Scene {
     //Ship
     this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, 'ship').setScale(0.50)
 
-    //group for Missile
-    this.missileGroup = this.physics.add.group()
+    //group for ball
+    this.ballGroup = this.physics.add.group()
 
     // group for net
     this.netGroup = this.add.group()
     this.createNet()
+
+    // Ball going into net
+    this.physics.add.collider(this.ballGroup, this.netGroup, function (ballCollide, netCollide) {
+      netCollide.destroy()
+      ballCollide.destroy()
+      this.sound.play('goal')
+      this.createNet()
+      this.createNet()
+    }.bind(this))
   }
 
   /** 
@@ -121,22 +132,22 @@ class GameScene extends Phaser.Scene {
       }
     }
 
-    //code for missiles
+    //code for balls
     if (keySpaceObj.isDown === true) {
-      if (this.fireMissile === false) {
-        //fire missile
-        this.fireMissile = true
-        const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile').setScale(0.5)
-        this.missileGroup.add(aNewMissile)
+      if (this.fireBall === false) {
+        //fire ball
+        this.fireBall = true
+        const aNewBall = this.physics.add.sprite(this.ship.x, this.ship.y, 'ball').setScale(0.5)
+        this.ballGroup.add(aNewBall)
         this.sound.play('laser')
       }
     }
 
     if (keySpaceObj.isUp === true){
-      this.fireMissile = false
+      this.fireBall = false
     }
 
-    this.missileGroup.children.each(function (item) {
+    this.ballGroup.children.each(function (item) {
       item.y = item.y - 15
       if (item.y < 0) {
         item.destroy()
