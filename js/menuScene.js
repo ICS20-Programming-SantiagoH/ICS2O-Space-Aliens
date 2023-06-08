@@ -15,9 +15,9 @@ class MenuScene extends Phaser.Scene {
   * This method is the construtor
   */
   constructor() {
-    super({ key: "menuScene" })
+    super({ key: 'menuScene' })
 
-    this.menuSceneBackgoundImage = null
+    this.menuSceneBackgroundImage = null
     this.statButton = null
   }
   
@@ -36,9 +36,9 @@ class MenuScene extends Phaser.Scene {
   * Use it to load assets.
   */
   preload() {
-    console.log("Menu Scene")
-    this.load.image('menuSceneBackgound', 'assets/aliens_screen_image2.jpg')
-    this.load.image('startButton', 'assets/start.png')
+    console.log('Menu Scene')
+    this.load.image('menuSceneBackground', './assets/menu_background_image.jpeg')
+    this.load.image('startButton', './assets/messiButton.png')
   }
 
   /** 
@@ -47,11 +47,11 @@ class MenuScene extends Phaser.Scene {
   * @param {object} data - Any data passed via ScenePlugin.add() or ScenePlugin.start() 
   */
   create(data) {
-    this.menuSceneBackgroundImage = this.add.sprite(0, 0, 'menuSceneBackground')
-    this.menuSceneBackgoundImage.x = 1920 / 2
+    this.menuSceneBackgroundImage = this.add.sprite(0, 0, 'menuSceneBackground').setScale(1.25)
+    this.menuSceneBackgroundImage.x = 1920 / 2
     this.menuSceneBackgroundImage.y = 1080 / 2
 
-    this.startButton = this.add.sprite(1920 / 2, (1080 / 2) + 100, 'startButton')
+    this.startButton = this.add.sprite(1920 / 2, (1080 / 2) + 100, 'startButton').setScale(2.00)
     this.startButton.setInteractive({ useHandCursor: true})
     this.startButton.on('pointerdown', () => this.clickButton())
   }
@@ -63,7 +63,6 @@ class MenuScene extends Phaser.Scene {
   * @parm {number} delta - The delta time in ms since the last frame.
   */
   update(time, delta) {
-    //pass
   }
 
   clickButton () {

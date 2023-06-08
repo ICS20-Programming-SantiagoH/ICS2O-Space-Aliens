@@ -1,44 +1,44 @@
 /* global Phaser */
 
-// Copyright (c) 2023 Hewett All rights reserved
+// Copyright (c) 2020 Mr. Coxall All rights reserved
 //
-// Created by: Santiago Hewett
-// Created on: May 2023
-// This is the Title scene
+// Created by: Mr. Coxall
+// Created on: Sep 2020
+// This is the Title Scene
 
 /** 
 * This class is the Title Scene
 */
 class TitleScene extends Phaser.Scene {
-  
+
   /** 
   * This method is the construtor
   */
-  constructor() {
+  constructor () {
     super({ key: 'titleScene' })
 
     this.titleSceneBackgroundImage = null
     this.titleSceneText = null
-    this.titleSceneTextStyle = { font: '200px Times', fill: ''#fde4b9', align: 'center'}
+    this.titleSceneTextStyle = { font: '200px Times', fill: '#fde4b9', align: 'center' }
   }
-  
+
   /** 
   * Can be defined on your own Scenes.
   * This method is called by the Scene Manager when the scene starts,
   *  before preload() and create().
   *@param {object} data - Any data passed via ScenePlugin.add() or ScenePlugin.start().
   */
-  init(data) {
+  init (data) {
     this.cameras.main.setBackgroundColor('#ffffff')
   }
-  
+
   /** 
   * Can be defined on your own Scenes.
   * Use it to load assets.
   */
-  preload() {
+  preload () {
     console.log('Title Scene')
-    this.load.image('titleSceneBackground', 'assets/aliens_screen_image.jpg')
+    this.load.image('titleSceneBackground', 'assets/soccer_screen_image.jpg')
   }
 
   /** 
@@ -46,12 +46,12 @@ class TitleScene extends Phaser.Scene {
   * Use it to create your game objects.
   * @param {object} data - Any data passed via ScenePlugin.add() or ScenePlugin.start() 
   */
-  create(data) {
-    this.titleSceneBackgroundImage = this.add.sprite(0, 0, 'titleSceneBackground').seScale(2.75)
+  create (data) {
+    this.titleSceneBackgroundImage = this.add.sprite(0, 0, 'titleSceneBackground').setScale(3.00)
     this.titleSceneBackgroundImage.x = 1920 / 2
     this.titleSceneBackgroundImage.y = 1080 / 2
 
-    this.titleSceneText = this.add.text(1920 / 2, 1080 / 2 + 350, "Space Aliens", this.titleSceneTextStyle).setOrigin(0.5)
+    this.titleSceneText = this.add.text(1920 / 2, (1080 / 2) + 350, 'Messi just being the best', this.titleSceneTextStyle).setOrigin(0.5).setScale(0.8)
   }
 
   /** 
@@ -60,8 +60,8 @@ class TitleScene extends Phaser.Scene {
   * @param {number} time - The current time.
   * @parm {number} delta - The delta time in ms since the last frame.
   */
-  update(time, delta) {
-    if (time > 6000) {
+  update (time, delta) {
+    if (time > 8000) {
       this.scene.switch('menuScene')
     }
   }
