@@ -10,7 +10,7 @@
 * This class is the Game Scene
 */
 class GameScene extends Phaser.Scene {
-  
+
   /** 
   * This method is the construtor
   */
@@ -40,6 +40,9 @@ class GameScene extends Phaser.Scene {
     this.load.image('ship', './assets/messi_ship_head.png')
 
     this.load.image('missile', './assets/soccer_ball_missile.png')
+
+    //sound
+    this.load.audio('laser', './assets/suiii.wav')
   }
 
   /** 
@@ -111,12 +114,20 @@ class GameScene extends Phaser.Scene {
         this.fireMissile = true
         const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile').setScale(0.5)
         this.missileGroup.add(aNewMissile)
+        this.sound.play('laser')
       }
     }
 
     if (keySpaceObj.isUp === true){
       this.fireMissile = false
     }
+
+    this.missileGroup.children.each(function (item) {
+      item.y = item.y - 15
+      if (item.y < 0) {
+        item.destroy()
+      }
+    })
   }
 }
 
