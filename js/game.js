@@ -1,9 +1,9 @@
 /* global Phaser */
 
-// Copyright (c) 2020 Mr. Coxall All rights reserved
+// Copyright (c) 2023 Santiago Hewett All rights reserved
 //
-// Created by: Mr. Coxall
-// Created on: Sep 2020
+// Created by: Santiago Hewett
+// Created on: June 2023
 // This is the Phaser3 configuration file
 
 // Scene import statements
