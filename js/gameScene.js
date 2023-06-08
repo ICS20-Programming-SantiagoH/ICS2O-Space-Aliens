@@ -38,6 +38,8 @@ class GameScene extends Phaser.Scene {
     //Images
     this.load.image('startBackground', './assets/soccerPitch.avif')
     this.load.image('ship', './assets/messi_ship_head.png')
+
+    this.load.image('missile', './assets/soccer_ball_missile.png')
   }
 
   /** 
@@ -46,10 +48,15 @@ class GameScene extends Phaser.Scene {
   * @param {object} data - Any data passed via ScenePlugin.add() or ScenePlugin.start() 
   */
   create(data) {
+    //Background
     this.background = this.add.image(0, 0, 'startBackground').setScale(5.0)
     this.background.setOrigin(0, 0)
 
+    //Ship
     this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, 'ship').setScale(0.50)
+
+    //Missile
+    this.missileGroup = this.physics.add.group()
   }
 
   /** 
@@ -63,7 +70,9 @@ class GameScene extends Phaser.Scene {
     const keyRightObj = this.input.keyboard.addKey('RIGHT')
     const keyUpObj = this.input.keyboard.addKey('UP')
     const keyDownObj = this.input.keyboard.addKey('DOWN')
+    const keySpaceObj = this.input.keyboard.addKey('SPACE')
 
+    // Code for ship left
     if (keyLeftObj.isDown === true) {
       this.ship.x -= 15
       if (this.ship.x < 0) {
@@ -71,6 +80,7 @@ class GameScene extends Phaser.Scene {
       }
     }
 
+    //Code for ship right
     if (keyRightObj.isDown === true) {
       this.ship.x += 15
       if (this.ship.x > 1920) {
@@ -78,6 +88,7 @@ class GameScene extends Phaser.Scene {
       }
     }
 
+    //code for ship up
     if (keyUpObj.isDown === true) {
       this.ship.y -= 15
       if (this.ship.y < 0) {
@@ -85,11 +96,26 @@ class GameScene extends Phaser.Scene {
       }
     }
 
+    //code for ship down
     if (keyDownObj.isDown === true) {
       this.ship.y += 15
       if (this.ship.y > 1920) {
         this.ship.y = 1920
       }
+    }
+
+    //code for missiles
+    if (keySpaceObj.isDown === true) {
+      if (this.fireMissile === false) {
+        //fire missile
+        this.fireMissile = true
+        const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
+        this.missileGroup.add(aNewMissile)
+      }
+    }
+
+    if (keySpaceObj.isUp === true){
+      this.fireMissile = false
     }
   }
 }
