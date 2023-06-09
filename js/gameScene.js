@@ -26,6 +26,12 @@ class GameScene extends Phaser.Scene {
   */
   constructor() {
     super({ key: 'gameScene' })
+
+    this.ship = null
+    this.fireBall = false
+    this.score = 0
+    this.scoreText = null
+    //this.scoreTextStyle = { font: '65px Arial' fill: '#ffffff' align: 'center' }
   }
   
   /** 
@@ -67,6 +73,9 @@ class GameScene extends Phaser.Scene {
     this.background = this.add.image(0, 0, 'startBackground').setScale(5.0)
     this.background.setOrigin(0, 0)
 
+    //Score
+    this.scoreText = this.add.text(10, 10, 'Score: ' + this.score.toString(), this.scoreTextStyle)
+
     //Ship
     this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, 'ship').setScale(0.50)
 
@@ -82,6 +91,8 @@ class GameScene extends Phaser.Scene {
       netCollide.destroy()
       ballCollide.destroy()
       this.sound.play('goal')
+      this.score = this.score + 1
+      this.scoreText.setText('Score: ' + this.score.toString())
       this.createNet()
       this.createNet()
     }.bind(this))
