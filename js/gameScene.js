@@ -10,11 +10,15 @@
 * This class is the Game Scene
 */
 class GameScene extends Phaser.Scene {
+  
   //Soccer net creation
   createNet () {
     const netXLocation = Math.floor(Math.random() * 1920) + 1 //This will get a random number between 1 and 1920
+    
     let netXVelocity = Math.floor(Math.random() * 50) +1 //This will get a random number between 1 and 50;
+    
     netXVelocity *= Math.round(Math.random()) ? 1 : -1 //This will make 50% of the cases negative
+    
     const anNet = this.physics.add.sprite(netXLocation, -100, 'net')
     anNet.body.velocity.y = 200
     anNet.body.velocity.x = netXVelocity
@@ -30,8 +34,9 @@ class GameScene extends Phaser.Scene {
     this.ship = null
     this.fireBall = false
     this.score = 0
-    this.scoreText = null
-    //this.scoreTextStyle = { font: '65px Arial' fill: '#ffffff' align: 'center' }
+    this.scoreTextStyle = { font: '65px Arial', fill: '#ffffff', align: 'center' }
+    this.gameOverText = null
+    this.gameOverTextStyle = { font: '65px Arial', fill: '#ff0000', align: 'center' }
   }
   
   /** 
@@ -41,7 +46,7 @@ class GameScene extends Phaser.Scene {
   *@param {object} data - Any data passed via ScenePlugin.add() or ScenePlugin.start().
   */
   init(data) {
-    this.cameras.main.setBackgroundColor('#ffffff')
+    this.cameras.main.setBackgroundColor('#0x5f6e7a')
   }
   
   /** 
@@ -61,6 +66,8 @@ class GameScene extends Phaser.Scene {
     //sounds
     this.load.audio('laser', './assets/suiii.wav')
     this.load.audio('goal', './assets/goal_sound.wav')
+    this.load.audio('bomb', './assets/messi_getting_hit.wav')
+    this.load.audio('music', './assets/music.wav')
   }
 
   /** 
@@ -69,12 +76,17 @@ class GameScene extends Phaser.Scene {
   * @param {object} data - Any data passed via ScenePlugin.add() or ScenePlugin.start() 
   */
   create(data) {
+    // Soundtrack
+    const song = this.sound.add('music');
+  song.loop = true;
+  song.play();
+    
     //Background
     this.background = this.add.image(0, 0, 'startBackground').setScale(5.0)
     this.background.setOrigin(0, 0)
 
     //Score
-    this.scoreText = this.add.text(10, 10, 'Score: ' + this.score.toString(), this.scoreTextStyle)
+    this.scoreText = this.add.text(10, 10, 'Goals: ' + this.score.toString(), this.scoreTextStyle)
 
     //Ship
     this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, 'ship').setScale(0.50)
@@ -92,10 +104,23 @@ class GameScene extends Phaser.Scene {
       ballCollide.destroy()
       this.sound.play('goal')
       this.score = this.score + 1
-      this.scoreText.setText('Score: ' + this.score.toString())
+      this.scoreText.setText('Goals: ' + this.score.toString())
       this.createNet()
       this.createNet()
     }.bind(this))
+
+    // A net hitting Messi
+this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCollide) {
+  this.sound.play('bomb')
+  song.pause('music')
+      netCollide.destroy()
+      ballCollide.destroy()
+  this.score = 0
+  this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
+  this.gameOverText.setInteractive({ useHandCursor: true })
+  this.gameOverText.on('pointerdown', () => this.scene.start('gameScene'))
+    }.bind(this))
+    
   }
 
   /** 
@@ -115,7 +140,7 @@ class GameScene extends Phaser.Scene {
     if (keyLeftObj.isDown === true) {
       this.ship.x -= 15
       if (this.ship.x < 0) {
-        this.ship.x = 0
+        this.ship.x = 1920
       }
     }
 
@@ -123,7 +148,7 @@ class GameScene extends Phaser.Scene {
     if (keyRightObj.isDown === true) {
       this.ship.x += 15
       if (this.ship.x > 1920) {
-        this.ship.x = 1920
+        this.ship.x = 0
       }
     }
 
