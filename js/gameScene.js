@@ -97,6 +97,7 @@ class GameScene extends Phaser.Scene {
     // group for net
     this.netGroup = this.add.group()
     this.createNet()
+    this.createNet()
 
     // Ball going into net
     this.physics.add.collider(this.ballGroup, this.netGroup, function (ballCollide, netCollide) {
@@ -134,9 +135,14 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
     const keyRightObj = this.input.keyboard.addKey('RIGHT')
     const keyUpObj = this.input.keyboard.addKey('UP')
     const keyDownObj = this.input.keyboard.addKey('DOWN')
+    const keyAObj = this.input.keyboard.addKey('A')
+    const keyDObj = this.input.keyboard.addKey('D')
+    const keyWObj = this.input.keyboard.addKey('W')
+    const keySObj = this.input.keyboard.addKey('S')
     const keySpaceObj = this.input.keyboard.addKey('SPACE')
 
-    // Code for ship left
+    //move with arrow keys
+    // Code for ship left with left arrow
     if (keyLeftObj.isDown === true) {
       this.ship.x -= 15
       if (this.ship.x < 0) {
@@ -144,7 +150,7 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
       }
     }
 
-    //Code for ship right
+    //Code for ship right with right arrow
     if (keyRightObj.isDown === true) {
       this.ship.x += 15
       if (this.ship.x > 1920) {
@@ -152,7 +158,7 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
       }
     }
 
-    //code for ship up
+    //code for ship up wih up arrow
     if (keyUpObj.isDown === true) {
       this.ship.y -= 15
       if (this.ship.y < 0) {
@@ -160,7 +166,7 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
       }
     }
 
-    //code for ship down
+    //code for ship down with down arrow
     if (keyDownObj.isDown === true) {
       this.ship.y += 15
       if (this.ship.y > 1920) {
@@ -168,6 +174,39 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
       }
     }
 
+// move with letters
+     // Code for ship left with A
+    if (keyAObj.isDown === true) {
+      this.ship.x -= 15
+      if (this.ship.x < 0) {
+        this.ship.x = 1920
+      }
+    }
+
+    //Code for ship right with D
+    if (keyDObj.isDown === true) {
+      this.ship.x += 15
+      if (this.ship.x > 1920) {
+        this.ship.x = 0
+      }
+    }
+
+    //code for ship up with W
+    if (keyWObj.isDown === true) {
+      this.ship.y -= 15
+      if (this.ship.y < 0) {
+        this.ship.y = 0
+      }
+    }
+
+    //code for ship down with S
+    if (keySObj.isDown === true) {
+      this.ship.y += 15
+      if (this.ship.y > 1920) {
+        this.ship.y = 1920
+      }
+    }
+    
     //code for balls
     if (keySpaceObj.isDown === true) {
       if (this.fireBall === false) {

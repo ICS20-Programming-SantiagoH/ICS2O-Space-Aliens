@@ -39,6 +39,7 @@ class MenuScene extends Phaser.Scene {
     console.log('Menu Scene')
     this.load.image('menuSceneBackground', './assets/menu_background_image.jpeg')
     this.load.image('startButton', './assets/messiButton.png')
+    this.load.audio('music', './assets/music.wav')
   }
 
   /** 

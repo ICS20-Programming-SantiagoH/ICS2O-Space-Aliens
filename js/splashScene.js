@@ -49,7 +49,7 @@ class SplashScene extends Phaser.Scene {
     this.splashSceneBackgroundImage.x = 1920 / 2
     this.splashSceneBackgroundImage.y = 1080 / 2
   }
-
+  
   /** 
   * Should be overridden by your own Scenes.
   * This method is called once per game step while the scene is running.
