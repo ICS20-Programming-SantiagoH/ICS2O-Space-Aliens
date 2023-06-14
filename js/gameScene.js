@@ -99,6 +99,28 @@ class GameScene extends Phaser.Scene {
     this.createNet()
     this.createNet()
 
+    // Function to create an defender
+  const createNet = () => {
+    const netXLocation = Math.floor(Math.random() * 1920) * 1;
+    let netXVelocity = Math.floor(Math.random() * 50) + 1;
+    netXVelocity *= Math.round(Math.random()) ? 1 : -1;
+
+    const anNet = this.physics.add.sprite(netXLocation, -100, 'net');
+    anNet.body.velocity.y = 200;
+    anNet.body.velocity.x = netXVelocity;
+    anNet.setScale(1.00);
+
+    this.netGroup.add(anNet);
+  };
+
+    // Create a timer event to call createAlien every 2 seconds
+  const netTimer = this.time.addEvent({
+    delay: 2000,
+    callback: createNet,
+    callbackScope: this,
+    loop: true
+  });
+
     // Ball going into net
     this.physics.add.collider(this.ballGroup, this.netGroup, function (ballCollide, netCollide) {
       netCollide.destroy()
@@ -112,6 +134,10 @@ class GameScene extends Phaser.Scene {
 
     // A net hitting Messi
 this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCollide) {
+  // Disable the space bar
+    const keySpaceObj = this.input.keyboard.addKey('SPACE')
+    keySpaceObj.enabled = false; 
+  
   this.sound.play('bomb')
   song.pause('music')
       netCollide.destroy()
@@ -144,6 +170,7 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
     //move with arrow keys
     // Code for ship left with left arrow
     if (keyLeftObj.isDown === true) {
+      this.ship.setFlipX(false);
       this.ship.x -= 15
       if (this.ship.x < 0) {
         this.ship.x = 1920
@@ -152,6 +179,7 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
 
     //Code for ship right with right arrow
     if (keyRightObj.isDown === true) {
+      this.ship.setFlipX(true);
       this.ship.x += 15
       if (this.ship.x > 1920) {
         this.ship.x = 0

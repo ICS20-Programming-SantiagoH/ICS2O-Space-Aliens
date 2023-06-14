@@ -17,8 +17,9 @@ class MenuScene extends Phaser.Scene {
   constructor() {
     super({ key: 'menuScene' })
 
-    this.menuSceneBackgroundImage = null
-    this.statButton = null
+    this.menuSceneBackgroundImage = null;
+    this.startButton = null;
+    this.MENUSONG = null; // Declare the MENUSONG property
   }
   
   /** 
@@ -39,7 +40,7 @@ class MenuScene extends Phaser.Scene {
     console.log('Menu Scene')
     this.load.image('menuSceneBackground', './assets/menu_background_image.jpeg')
     this.load.image('startButton', './assets/messiButton.png')
-    this.load.audio('music', './assets/music.wav')
+    this.load.audio('menuMusic', './assets/menuSceneMusic.wav')
   }
 
   /** 
@@ -48,6 +49,11 @@ class MenuScene extends Phaser.Scene {
   * @param {object} data - Any data passed via ScenePlugin.add() or ScenePlugin.start() 
   */
   create(data) {
+    // Soundtrack
+  this.MENUSONG = this.sound.add('menuMusic');
+  this.MENUSONG.loop = true;
+  this.MENUSONG.play();
+
     this.menuSceneBackgroundImage = this.add.sprite(0, 0, 'menuSceneBackground').setScale(1.25)
     this.menuSceneBackgroundImage.x = 1920 / 2
     this.menuSceneBackgroundImage.y = 1080 / 2
@@ -66,8 +72,10 @@ class MenuScene extends Phaser.Scene {
   update(time, delta) {
   }
 
-  clickButton () {
-    this.scene.start('gameScene')
+  clickButton() {
+  // Stop the menu music
+  this.MENUSONG.stop();
+  this.scene.start('gameScene');
   }
 }
 
