@@ -36,7 +36,7 @@ class SplashScene extends Phaser.Scene {
   */
   preload () {
     console.log('Splash Scene')
-    this.load.image('splashSceneBackground', './assets/splashSceneImage.png')
+    this.load.image('splashSceneBackground', './images/splashSceneImage.png')
   }
 
   /** 
@@ -48,6 +48,28 @@ class SplashScene extends Phaser.Scene {
     this.splashSceneBackgroundImage = this.add.sprite(0, 0, 'splashSceneBackground')
     this.splashSceneBackgroundImage.x = 1920 / 2
     this.splashSceneBackgroundImage.y = 1080 / 2
+    
+    // Set the initial alpha to 0 (fully transparent)
+  this.splashSceneBackgroundImage.alpha = 0
+
+  // Create a fade-in tween
+  this.tweens.add({
+    targets: this.splashSceneBackgroundImage,
+    alpha: 1,  // Target alpha of 1 (fully opaque)
+    duration: 1000,  // Duration of the fade-in effect in milliseconds
+    ease: 'Linear',
+    repeat: 0  // No repeat
+  })
+
+  // Create a fade-out tween with a delay of 2000 milliseconds (2 seconds) after the fade-in effect
+  this.tweens.add({
+    targets: this.splashSceneBackgroundImage,
+    alpha: 0,  // Target alpha of 0 (fully transparent)
+    duration: 1000,  // Duration of the fade-out effect in milliseconds
+    ease: 'Linear',
+    repeat: 0,  // No repeat
+    delay: 2000  // Delay of 2000 milliseconds (2 seconds)
+  })
   }
   
   /** 
@@ -57,7 +79,7 @@ class SplashScene extends Phaser.Scene {
   * @parm {number} delta - The delta time in ms since the last frame.
   */
   update (time, delta) {
-    if (time > 4000) {
+    if (time > 6000) {
       this.scene.switch('titleScene')
     }
   }

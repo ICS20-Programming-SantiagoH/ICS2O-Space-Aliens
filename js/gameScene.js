@@ -30,13 +30,19 @@ class GameScene extends Phaser.Scene {
   */
   constructor() {
     super({ key: 'gameScene' })
-
-    this.ship = null
+    //set to false
     this.fireBall = false
-    this.score = 0
-    this.scoreTextStyle = { font: '65px Arial', fill: '#ffffff', align: 'center' }
+    //set to null
+    this.ship = null
     this.gameOverText = null
+    this.highScoreText = null
+    //set to zero
+    this.highScore = 0
+    this.score = 0
+    //set sixe, font and position of text
     this.gameOverTextStyle = { font: '65px Arial', fill: '#ff0000', align: 'center' }
+    this.highScoreTextStyle = { font: '65px Arial', fill: '#FF7F50', align: 'center' }
+    this.scoreTextStyle = { font: '65px Arial', fill: '#FF7F50', align: 'center' }
   }
   
   /** 
@@ -47,6 +53,12 @@ class GameScene extends Phaser.Scene {
   */
   init(data) {
     this.cameras.main.setBackgroundColor('#0x5f6e7a')
+    
+     // Retrieve high score from local storage
+    const storedHighScore = localStorage.getItem('highScore')
+    if (storedHighScore) {
+      this.highScore = parseInt(storedHighScore)
+    }
   }
   
   /** 
@@ -57,17 +69,17 @@ class GameScene extends Phaser.Scene {
     console.log('Game Scene')
 
     //Images
-    this.load.image('startBackground', './assets/soccerPitch.avif')
-    this.load.image('ship', './assets/messi_ship_head.png')
-    this.load.image('ball', './assets/soccer_ball.png')
-    this.load.image('net', './assets/Soccer_Goal.png')
+    this.load.image('startBackground', './images/soccerPitch.avif')
+    this.load.image('ship', './images/messi_ship_head.png')
+    this.load.image('ball', './images/soccer_ball.png')
+    this.load.image('net', './images/Soccer_Goal.png')
     
 
     //sounds
-    this.load.audio('laser', './assets/suiii.wav')
-    this.load.audio('goal', './assets/goal_sound.wav')
-    this.load.audio('bomb', './assets/messi_getting_hit.wav')
-    this.load.audio('music', './assets/music.wav')
+    this.load.audio('laser', './sounds/suiii.wav')
+    this.load.audio('goal', './sounds/goal_sound.wav')
+    this.load.audio('bomb', './sounds/messi_getting_hit.wav')
+    this.load.audio('music', './sounds/music.wav')
   }
 
   /** 
@@ -77,9 +89,9 @@ class GameScene extends Phaser.Scene {
   */
   create(data) {
     // Soundtrack
-    const song = this.sound.add('music');
-  song.loop = true;
-  song.play();
+    const song = this.sound.add('music')
+  song.loop = true
+  song.play()
     
     //Background
     this.background = this.add.image(0, 0, 'startBackground').setScale(5.0)
@@ -87,6 +99,9 @@ class GameScene extends Phaser.Scene {
 
     //Score
     this.scoreText = this.add.text(10, 10, 'Goals: ' + this.score.toString(), this.scoreTextStyle)
+
+    // High score text
+    this.highScoreText = this.add.text(10, 70, 'High Score: ' + this.highScore.toString(), this.highScoreTextStyle);
 
     //Ship
     this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, 'ship').setScale(0.50)
@@ -140,6 +155,7 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
   
   this.sound.play('bomb')
   song.pause('music')
+    this.physics.pause()
       netCollide.destroy()
       ballCollide.destroy()
   this.score = 0
@@ -170,7 +186,7 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
     //move with arrow keys
     // Code for ship left with left arrow
     if (keyLeftObj.isDown === true) {
-      this.ship.setFlipX(false);
+      this.ship.setFlipX(false)
       this.ship.x -= 15
       if (this.ship.x < 0) {
         this.ship.x = 1920
@@ -205,6 +221,7 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
 // move with letters
      // Code for ship left with A
     if (keyAObj.isDown === true) {
+      this.ship.setFlipX(false)
       this.ship.x -= 15
       if (this.ship.x < 0) {
         this.ship.x = 1920
@@ -213,6 +230,7 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
 
     //Code for ship right with D
     if (keyDObj.isDown === true) {
+      this.ship.setFlipX(true)
       this.ship.x += 15
       if (this.ship.x > 1920) {
         this.ship.x = 0
@@ -256,6 +274,15 @@ this.physics.add.collider(this.ship, this.netGroup, function (ballCollide, netCo
         item.destroy()
       }
     })
+    
+    //If statment for high score
+    if (this.score > this.highScore) {
+      this.highScore = this.score
+      this.highScoreText.setText('High Score: ' + this.highScore.toString())
+
+      // Store the new high score in local storage
+      localStorage.setItem('highScore', this.highScore.toString())
+    }
   }
 }
 

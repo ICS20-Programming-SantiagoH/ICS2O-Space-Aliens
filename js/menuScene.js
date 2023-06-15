@@ -20,6 +20,7 @@ class MenuScene extends Phaser.Scene {
     this.menuSceneBackgroundImage = null;
     this.startButton = null;
     this.MENUSONG = null; // Declare the MENUSONG property
+    this.instructionsButton = null
   }
   
   /** 
@@ -38,9 +39,10 @@ class MenuScene extends Phaser.Scene {
   */
   preload() {
     console.log('Menu Scene')
-    this.load.image('menuSceneBackground', './assets/menu_background_image.jpeg')
-    this.load.image('startButton', './assets/messiButton.png')
-    this.load.audio('menuMusic', './assets/menuSceneMusic.wav')
+    this.load.image('menuSceneBackground', './images/menu_background_image.jpeg')
+    this.load.image('startButton', './images/messiButton.png')
+    this.load.image('instructionsButton', './images/instruction-button.png')
+    this.load.audio('menuMusic', './sounds/menuSceneMusic.wav')
   }
 
   /** 
@@ -50,9 +52,9 @@ class MenuScene extends Phaser.Scene {
   */
   create(data) {
     // Soundtrack
-  this.MENUSONG = this.sound.add('menuMusic');
-  this.MENUSONG.loop = true;
-  this.MENUSONG.play();
+  this.MENUSONG = this.sound.add('menuMusic')
+  this.MENUSONG.loop = true
+  this.MENUSONG.play()
 
     this.menuSceneBackgroundImage = this.add.sprite(0, 0, 'menuSceneBackground').setScale(1.25)
     this.menuSceneBackgroundImage.x = 1920 / 2
@@ -61,6 +63,11 @@ class MenuScene extends Phaser.Scene {
     this.startButton = this.add.sprite(1920 / 2, (1080 / 2) + 100, 'startButton').setScale(2.00)
     this.startButton.setInteractive({ useHandCursor: true})
     this.startButton.on('pointerdown', () => this.clickButton())
+
+    this.instructionsButton = this.add.sprite(1920 / 2, 185, 'instructionsButton'); 
+  this.instructionsButton.setScale(0.5); 
+    this.instructionsButton.setInteractive({ useHandCursor: true });
+    this.instructionsButton.on('pointerdown', () => this.clickInstructions());
   }
 
   /** 
@@ -74,8 +81,12 @@ class MenuScene extends Phaser.Scene {
 
   clickButton() {
   // Stop the menu music
-  this.MENUSONG.stop();
-  this.scene.start('gameScene');
+  this.MENUSONG.stop()
+  this.scene.start('gameScene')
+  }
+  clickInstructions() {
+    this.scene.start('instructionsScene')
+    this.MENUSONG.stop()
   }
 }
 
