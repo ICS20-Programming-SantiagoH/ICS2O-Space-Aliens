@@ -27,12 +27,18 @@ class InstructionsScene extends Phaser.Scene {
     this.load.image('background', './images/MessiInstructions.jpg')
     this.load.image('menuButton', './images/menuButton.png')
     this.load.audio('instructionsMusic', './sounds/instructionMusic.mp3')
+    this.load.audio('instructionsMessi', './sounds/messiInstructions.mp3')
   }
 
   create(data) {
+    //Sound track
     const song = this.sound.add('instructionsMusic');
     song.loop = true
     song.play()
+
+    //Messi speaking
+    const speach = this.sound.add('instructionsMessi');
+    speach.play()
 
     this.background = this.add.image(1920 / 2, 1080 / 2, 'background');
     this.background.setOrigin(0.5).setScale(1.90);
